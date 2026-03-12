@@ -1,3 +1,4 @@
+using SQLite;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,6 +10,9 @@ public class Musician : MonoBehaviour
     public int Virtuosity { get; set; }
     [field: SerializeField]
     public int Charisma { get; set; }
+    [PrimaryKey]
+    [AutoIncrement]
+    public int Id { get; set; }
 
     private void Start()
     {
