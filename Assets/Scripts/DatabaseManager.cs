@@ -1,45 +1,64 @@
 using UnityEngine;
 using SQLite;
 using System.Linq.Expressions;
+using System.Linq;
 
-public class DatabaseManager
+public sealed class DatabaseManager
 {
+    private static DatabaseManager _instance;
     private SQLiteConnection _connection;
-    string databasePath = System.IO.Path.Combine(Application.persistentDataPath, "JazzClub.db");
-    public object Musician;
+    string databasePath = System.IO.Path.Combine(Application.persistentDataPath, "JazzClub.db"); // Is there alternative way since no monobehaviour is being used?
+    public Musician currentMusician;
 
     private void InitializeDatabase()
     {
+        _connection = new SQLiteConnection(databasePath);
+        Debug.Log("Connection exists, connected succesfully");
+        Debug.Log(databasePath);
         if (_connection == null)
         {
+            
             _connection = new SQLiteConnection(databasePath);
-            Debug.Log("Connection exists, connected succesfully");
-
         }
         _connection.CreateTable<Musician>();
         Debug.Log("Created a new musician table");
     }
 
-    private void Awake()
+    public static DatabaseManager Instance
     {
-        InitializeDatabase();
-        Debug.Log(databasePath);
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = new DatabaseManager();
+                _instance.InitializeDatabase();
+            }
+            return _instance;
+        }
     }
 
-    private void Start()
+    public MusicianData LoadMusician(int id)
     {
-        
-        _connection.Insert(Musician);
+        return _connection.Find<MusicianData>(id);
+    }
 
-        
+    public void SaveMusician(MusicianData data)
+    {
+        _connection.Update(data);
+    }
 
-        _connection.Table<Musician>().ToList();
+    private void h234()
+    {
+        var allMusicians = _connection.Table<MusicianData>().ToList();
+        //_connection.Table<Musician>().Select<Musician>();
     }
 
 
     public void updateMusician()
     {
-        _connection.Update(Musician);
+        _connection.Update(currentMusician);
+        //DatabaseManager.instance.Save(data);
     }
 
 }
+
