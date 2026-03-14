@@ -2,6 +2,8 @@ using UnityEngine;
 using SQLite;
 using System.Linq.Expressions;
 using System.Linq;
+using System;
+using Unity.VisualScripting;
 
 public sealed class DatabaseManager
 {
@@ -17,10 +19,10 @@ public sealed class DatabaseManager
         Debug.Log(databasePath);
         if (_connection == null)
         {
-            
+
             _connection = new SQLiteConnection(databasePath);
         }
-        _connection.CreateTable<Musician>();
+        _connection.CreateTable<MusicianData>();
         Debug.Log("Created a new musician table");
     }
 
@@ -44,21 +46,26 @@ public sealed class DatabaseManager
 
     public void SaveMusician(MusicianData data)
     {
-        _connection.Update(data);
+        _connection.InsertOrReplace(data);
     }
 
-    private void h234()
+    public void CreateMusician(int id)
     {
-        var allMusicians = _connection.Table<MusicianData>().ToList();
-        //_connection.Table<Musician>().Select<Musician>();
+        _connection.InsertOrReplace(id);
     }
-
 
     public void updateMusician()
     {
-        _connection.Update(currentMusician);
+        _connection.InsertOrReplace(currentMusician);
         //DatabaseManager.instance.Save(data);
     }
 
+    public void CloseConnection()
+    {
+        if (_connection != null)
+        {
+            _connection.Close();
+        }
+    }
 }
 
