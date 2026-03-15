@@ -25,11 +25,8 @@ public class Musician : MonoBehaviour
     {
         if (_nameText == null)
         {
-
-        }
-        if (Id == 0)
-        {
-
+            Debug.LogError("Remember to attach name to TextMeshPro");
+            return; // return so game won't crash
         }
         else
         {
@@ -79,6 +76,5 @@ public class Musician : MonoBehaviour
     public void UpdateUI()
     {
         _nameText.text = "Name: " + _data.Name;
-        
     }
 }

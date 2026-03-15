@@ -5,7 +5,7 @@ using System.Linq;
 using System;
 using Unity.VisualScripting;
 
-public sealed class DatabaseManager
+public sealed class DatabaseManager : IDisposable
 {
     private static DatabaseManager _instance;
     private SQLiteConnection _connection;
@@ -49,23 +49,30 @@ public sealed class DatabaseManager
         _connection.InsertOrReplace(data);
     }
 
-    public void CreateMusician(int id)
+    public void CreateMusician(string name)
     {
-        _connection.InsertOrReplace(id);
+        var newMusician = new MusicianData { Name = name, Virtuosity = 0, Charisma = 0 };
+        _connection.Insert(newMusician);
     }
 
     public void updateMusician()
     {
         _connection.InsertOrReplace(currentMusician);
-        //DatabaseManager.instance.Save(data);
     }
+
 
     public void CloseConnection()
     {
         if (_connection != null)
         {
             _connection.Close();
+            _connection = null;
+            Debug.Log("Database connection closed.");
         }
+    }
+    public void Dispose()
+    {
+        CloseConnection();
     }
 }
 
