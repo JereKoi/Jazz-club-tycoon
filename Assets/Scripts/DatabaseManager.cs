@@ -23,6 +23,7 @@ public sealed class DatabaseManager : IDisposable
             _connection = new SQLiteConnection(databasePath);
         }
         _connection.CreateTable<MusicianData>();
+        _connection.CreateTable<InventoryItem>();
         Debug.Log("Created a new musician table");
     }
 
@@ -42,6 +43,11 @@ public sealed class DatabaseManager : IDisposable
     public MusicianData LoadMusician(int id)
     {
         return _connection.Find<MusicianData>(id);
+    }
+
+    public InventoryItem LoadInventoryItem(int id)
+    {
+        return _connection.Find<InventoryItem>(id);
     }
 
     public void SaveMusician(MusicianData data)
