@@ -17,6 +17,8 @@ public class MusicianData
 public class Musician : MonoBehaviour
 {
     public int Id { get; set; }
+    public bool isHired;
+    public float dailyWage;
     private MusicianData _data = new MusicianData();
     [SerializeField] private TextMeshProUGUI _nameText;
 
@@ -48,7 +50,7 @@ public class Musician : MonoBehaviour
 
     public void SelectMusicican()
     {
-
+        isHired = true;
     }
 
     private void ApplyChanges()
