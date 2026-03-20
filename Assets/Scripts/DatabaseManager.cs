@@ -11,6 +11,7 @@ public sealed class DatabaseManager : IDisposable
     private SQLiteConnection _connection;
     string databasePath = System.IO.Path.Combine(Application.persistentDataPath, "JazzClub.db"); // Is there alternative way since no monobehaviour is being used?
     public Musician currentMusician;
+    public ClubData clubData;
 
     private void InitializeDatabase()
     {
@@ -19,11 +20,13 @@ public sealed class DatabaseManager : IDisposable
         Debug.Log(databasePath);
         if (_connection == null)
         {
-
             _connection = new SQLiteConnection(databasePath);
         }
         _connection.CreateTable<MusicianData>();
         _connection.CreateTable<InventoryItem>();
+        _connection.CreateTable<ClubData>();
+        Debug.Log("Created a new Club table");
+        Debug.Log("Created a new InventoryItem table");
         Debug.Log("Created a new musician table");
     }
 
@@ -79,6 +82,22 @@ public sealed class DatabaseManager : IDisposable
     public void Dispose()
     {
         CloseConnection();
+    }
+
+    public void CreateClub(string name)
+    {
+        var newClub = new ClubData { Name = name };
+        _connection.Insert(newClub);
+    }
+
+    public void SaveClub(ClubData data)
+    {
+        _connection.InsertOrReplace(data);
+    }
+
+    public void LoadClub(int id)
+    {
+        _connection.Find<ClubData>(id);
     }
 }
 
