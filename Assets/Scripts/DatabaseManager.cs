@@ -95,9 +95,9 @@ public sealed class DatabaseManager : IDisposable
         _connection.InsertOrReplace(data);
     }
 
-    public void LoadClub(int id)
+    public ClubData LoadClub(int id)
     {
-        _connection.Find<ClubData>(id);
+       return _connection.Find<ClubData>(id);
     }
 }
 

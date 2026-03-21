@@ -21,21 +21,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
-        
-        try
-        {
-            DatabaseManager.Instance.LoadClub(1);
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error loading club: " + e);
-            if (DatabaseManager.Instance.LoadClub())
-            {
-
-            }
-        }
-
-
     }
 
     private void OnApplicationQuit()
