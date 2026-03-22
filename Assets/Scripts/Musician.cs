@@ -16,7 +16,6 @@ public class MusicianData
 
 public class Musician : MonoBehaviour
 {
-    public int Id { get; set; }
     public bool isHired;
     public float dailyWage;
     private MusicianData _data = new MusicianData();
@@ -32,7 +31,7 @@ public class Musician : MonoBehaviour
         }
         else
         {
-            _data = DatabaseManager.Instance.LoadMusician(Id);
+            _data = DatabaseManager.Instance.LoadMusician(_data.Id);
         }
         if (_data == null)
         {
@@ -41,15 +40,17 @@ public class Musician : MonoBehaviour
         _data.Name = "Francesca Smiles";
         Debug.Log("Start method");
         Debug.Log("Musician name is: " + _data.Name);
+        UpdateUI();
     }
 
     public void CreateMusicican(int Id)
     {
-
+        Debug.Log("Musician was created succesfully.");
     }
 
     public void SelectMusicican()
     {
+        Debug.Log("Musician was selected: " + _data.Name);
         isHired = true;
     }
 
@@ -57,6 +58,7 @@ public class Musician : MonoBehaviour
     {
         DatabaseManager.Instance.SaveMusician(_data);
         UpdateUI();
+        Debug.Log("Musician changes were updated succesfully.");
     }
 
     public void IncreaseCharisma()

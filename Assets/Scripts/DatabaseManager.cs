@@ -16,8 +16,7 @@ public sealed class DatabaseManager : IDisposable
     private void InitializeDatabase()
     {
         _connection = new SQLiteConnection(databasePath);
-        Debug.Log("Connection exists, connected succesfully");
-        Debug.Log(databasePath);
+        Debug.Log("Connection exists, connected succesfully: " + databasePath);
         if (_connection == null)
         {
             _connection = new SQLiteConnection(databasePath);
@@ -58,10 +57,11 @@ public sealed class DatabaseManager : IDisposable
         _connection.InsertOrReplace(data);
     }
 
-    public void CreateMusician(string name)
+    public MusicianData CreateMusician(string name)
     {
         var newMusician = new MusicianData { Name = name, Virtuosity = 0, Charisma = 0 };
         _connection.Insert(newMusician);
+        return newMusician;
     }
 
     public void updateMusician()
@@ -84,15 +84,24 @@ public sealed class DatabaseManager : IDisposable
         CloseConnection();
     }
 
-    public void CreateClub(string name)
+    public ClubData CreateClub(string name)
     {
-        var newClub = new ClubData { Name = name };
+        var newClub = new ClubData { name = name };
         _connection.Insert(newClub);
+        return newClub;
     }
 
     public void SaveClub(ClubData data)
     {
         _connection.InsertOrReplace(data);
+
+        try
+        {
+            DatabaseManager.Instance.SaveClub(data);
+        } catch (Exception e)
+        {
+            Debug.LogError("Saving failed: " + e.Message);
+        }
     }
 
     public ClubData LoadClub(int id)
