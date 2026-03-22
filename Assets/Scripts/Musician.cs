@@ -38,7 +38,6 @@ public class Musician : MonoBehaviour
             _data = new MusicianData { Name = "MusicianData" };
         }
         _data.Name = "Francesca Smiles";
-        Debug.Log("Start method");
         Debug.Log("Musician name is: " + _data.Name);
         UpdateUI();
     }

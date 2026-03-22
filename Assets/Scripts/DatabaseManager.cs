@@ -9,24 +9,29 @@ public sealed class DatabaseManager : IDisposable
 {
     private static DatabaseManager _instance;
     private SQLiteConnection _connection;
-    string databasePath = System.IO.Path.Combine(Application.persistentDataPath, "JazzClub.db"); // Is there alternative way since no monobehaviour is being used?
-    public Musician currentMusician;
+    string databasePath = System.IO.Path.Combine(Application.persistentDataPath, "JazzClub.db");
+    public MusicianData musicianData;
     public ClubData clubData;
+    public InventoryItemData inventoryItemData;
 
     private void InitializeDatabase()
     {
         _connection = new SQLiteConnection(databasePath);
         Debug.Log("Connection exists, connected succesfully: " + databasePath);
-        if (_connection == null)
-        {
-            _connection = new SQLiteConnection(databasePath);
-        }
-        _connection.CreateTable<MusicianData>();
-        _connection.CreateTable<InventoryItem>();
+
+
         _connection.CreateTable<ClubData>();
         Debug.Log("Created a new Club table");
-        Debug.Log("Created a new InventoryItem table");
+        LoadClub(GameManager.Instance.currentClubId);
+        Debug.Log("Loaded club: " + GameManager.Instance.currentClubId);
+        _connection.CreateTable<MusicianData>();
         Debug.Log("Created a new musician table");
+        LoadMusician(GameManager.Instance.currentMusicianId);
+        Debug.Log("Loaded club: " + GameManager.Instance.currentMusicianId);
+        _connection.CreateTable<InventoryItemData>();
+        Debug.Log("Created a new InventoryItem table");
+        LoadInventoryItem(GameManager.Instance.currentInventoryItemId);
+        Debug.Log("Loaded InventoryItem: " + GameManager.Instance.currentInventoryItemId);
     }
 
     public static DatabaseManager Instance
@@ -47,9 +52,9 @@ public sealed class DatabaseManager : IDisposable
         return _connection.Find<MusicianData>(id);
     }
 
-    public InventoryItem LoadInventoryItem(int id)
+    public InventoryItemData LoadInventoryItem(int id)
     {
-        return _connection.Find<InventoryItem>(id);
+        return _connection.Find<InventoryItemData>(id);
     }
 
     public void SaveMusician(MusicianData data)
@@ -62,11 +67,6 @@ public sealed class DatabaseManager : IDisposable
         var newMusician = new MusicianData { Name = name, Virtuosity = 0, Charisma = 0 };
         _connection.Insert(newMusician);
         return newMusician;
-    }
-
-    public void updateMusician()
-    {
-        _connection.InsertOrReplace(currentMusician);
     }
 
 
@@ -94,14 +94,6 @@ public sealed class DatabaseManager : IDisposable
     public void SaveClub(ClubData data)
     {
         _connection.InsertOrReplace(data);
-
-        try
-        {
-            DatabaseManager.Instance.SaveClub(data);
-        } catch (Exception e)
-        {
-            Debug.LogError("Saving failed: " + e.Message);
-        }
     }
 
     public ClubData LoadClub(int id)

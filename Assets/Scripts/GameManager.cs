@@ -5,6 +5,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int currentClubId = 1;
+    public int currentMusicianId = 1;
+    public int currentInventoryItemId = 1;
 
     private void Awake()
     {
