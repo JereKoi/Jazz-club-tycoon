@@ -1,5 +1,6 @@
 using UnityEngine;
 using SQLite;
+using Unity.VisualScripting;
 
 public class InventoryItemData
 {
@@ -10,6 +11,10 @@ public class InventoryItemData
 
     public class InventoryItem
     {
-
+        private void Start()
+        {
+            Debug.Log("Created a new InventoryItem table");
+            DatabaseManager.Instance.LoadInventoryItem(GameManager.Instance.currentInventoryItemId);
+        }
     }
 }

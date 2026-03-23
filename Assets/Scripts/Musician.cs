@@ -32,6 +32,7 @@ public class Musician : MonoBehaviour
         else
         {
             _data = DatabaseManager.Instance.LoadMusician(_data.Id);
+            Debug.Log("Loaded musician: " + GameManager.Instance.currentMusicianId);
         }
         if (_data == null)
         {

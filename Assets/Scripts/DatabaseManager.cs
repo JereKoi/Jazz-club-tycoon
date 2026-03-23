@@ -22,16 +22,12 @@ public sealed class DatabaseManager : IDisposable
 
         _connection.CreateTable<ClubData>();
         Debug.Log("Created a new Club table");
-        LoadClub(GameManager.Instance.currentClubId);
-        Debug.Log("Loaded club: " + GameManager.Instance.currentClubId);
+
         _connection.CreateTable<MusicianData>();
         Debug.Log("Created a new musician table");
-        LoadMusician(GameManager.Instance.currentMusicianId);
-        Debug.Log("Loaded club: " + GameManager.Instance.currentMusicianId);
+
         _connection.CreateTable<InventoryItemData>();
-        Debug.Log("Created a new InventoryItem table");
-        LoadInventoryItem(GameManager.Instance.currentInventoryItemId);
-        Debug.Log("Loaded InventoryItem: " + GameManager.Instance.currentInventoryItemId);
+        Debug.Log("Created a new inventory item table");
     }
 
     public static DatabaseManager Instance
