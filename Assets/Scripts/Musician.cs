@@ -69,6 +69,14 @@ public class Musician : MonoBehaviour
         Debug.Log("Charisma increase!");
     }
 
+    public void DecreaseCharisma()
+    {
+        if (_data == null) _data = new MusicianData { Name = "New Musicican" };
+        _data.Charisma = Mathf.Clamp(_data.Charisma - 1, 0, 10);
+        ApplyChanges();
+        Debug.Log("Charisma decrease!");
+    }
+
     public void IncreaseVirtuosity()
     {
         if (_data == null) _data = new MusicianData { Name = "New Musicican" };
