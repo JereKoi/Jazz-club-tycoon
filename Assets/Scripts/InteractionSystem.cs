@@ -6,14 +6,22 @@ public class InteractionSystem : MonoBehaviour
     public GameObject itemPrefab;
 
     private GameObject _carriedItem;
-    private bool _canPickUp = false;
+    private bool _onCounter = false;
+    private bool _onTable = false;
+
+    private int _money = 0;
 
 
     private void Update()
     {
-        if (_canPickUp && _carriedItem == null)
+        if (_onCounter && _carriedItem == null)
         {
             PickUp();
+        }
+
+        if (_onTable && _carriedItem != null)
+        {
+            DropOff();
         }
     }
 
@@ -26,11 +34,28 @@ public class InteractionSystem : MonoBehaviour
         Debug.Log("Drink grapped!");
     }
 
+    void DropOff()
+    {
+        CustomerAI customer = FindAnyObjectByType<CustomerAI>();
+        if (customer != null && Customer.currentState == CustomerAI.CustomerState.Waiting)
+        {
+            Destroy(_carriedItem);
+            _carriedItem = null;
+
+            _money += 10;
+            Debug.Log("Drink delivered! Money total: " + _money);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Counter"))
         {
-            _canPickUp = true;
+            _onCounter = true;
+        }
+        if (other.CompareTag("Table"))
+        {
+            _onTable = true;
         }
     }
 
@@ -38,7 +63,11 @@ public class InteractionSystem : MonoBehaviour
     {
         if (other.CompareTag("Counter"))
         {
-            _canPickUp = false;
+            _onCounter = false;
+        }
+        if (other.CompareTag("Table"))
+        {
+            _onTable = false;
         }
     }
 }
