@@ -16,6 +16,9 @@ public class CustomerAI : MonoBehaviour
         _targetTable = table;
         _exitPoint = exit;
 
+        _agent.enabled = true;
+        _agent.isStopped = false;
+
         // Stage 1: Walk to table
         _agent.SetDestination(_targetTable.position);
     }
@@ -28,6 +31,14 @@ public class CustomerAI : MonoBehaviour
             currentState = CustomerState.Waiting;
             Debug.Log("Customer waits for a drink");
         }
+
+        // Stage 4: Check if customer is at exit position
+        if (currentState == CustomerState.Leaving && _agent.remainingDistance < 0.5f)
+        {
+            Debug.Log("Customer left bar. Good bye and come by again!");
+            Destroy(gameObject);
+        }
+;
     }
 
     public void ReceiveDrink()

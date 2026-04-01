@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Counter
+  - Table
   layers:
   - Default
   - TransparentFX

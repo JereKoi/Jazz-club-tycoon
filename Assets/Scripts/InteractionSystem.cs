@@ -1,9 +1,11 @@
+using TMPro;
 using UnityEngine;
 
 public class InteractionSystem : MonoBehaviour
 {
     public Transform hand;
     public GameObject itemPrefab;
+    public TextMeshProUGUI moneyText;
 
     private GameObject _carriedItem;
     private bool _onCounter = false;
@@ -36,14 +38,28 @@ public class InteractionSystem : MonoBehaviour
 
     void DropOff()
     {
-        CustomerAI customer = FindAnyObjectByType<CustomerAI>();
-        if (customer != null && Customer.currentState == CustomerAI.CustomerState.Waiting)
-        {
-            Destroy(_carriedItem);
-            _carriedItem = null;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2.0f);
 
-            _money += 10;
-            Debug.Log("Drink delivered! Money total: " + _money);
+        foreach (var hitCollider in hitColliders)
+        {
+            CustomerAI customer = hitCollider.GetComponent<CustomerAI>();
+            if (customer != null && customer.currentState == CustomerAI.CustomerState.Waiting)
+            {
+                Destroy(_carriedItem);
+                _carriedItem = null;
+
+                _money += 10;
+                Debug.Log("Drink delivered! Money total: " + _money);
+
+                if (moneyText != null)
+                {
+                    moneyText.text = "Money: " + _money;
+                }
+
+                customer.ReceiveDrink();
+
+                return;
+            }
         }
     }
 
