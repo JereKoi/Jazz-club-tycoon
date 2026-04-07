@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     private NavMeshAgent _agent;
     private Camera _mainCamera;
 
+
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();

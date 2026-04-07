@@ -48,7 +48,8 @@ public class InteractionSystem : MonoBehaviour
                 Destroy(_carriedItem);
                 _carriedItem = null;
 
-                _money += 10;
+                int tip = Mathf.RoundToInt(customer.patience / 5f);
+                _money += tip;
                 Debug.Log("Drink delivered! Money total: " + _money);
 
                 if (moneyText != null)
@@ -56,6 +57,7 @@ public class InteractionSystem : MonoBehaviour
                     moneyText.text = "Money: " + _money;
                 }
 
+                Debug.Log("Got tip: " + tip);
                 customer.ReceiveDrink();
 
                 return;

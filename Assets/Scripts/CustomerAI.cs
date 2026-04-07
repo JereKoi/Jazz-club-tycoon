@@ -7,20 +7,22 @@ public class CustomerAI : MonoBehaviour
     public CustomerState currentState = CustomerState.Entering;
 
     private NavMeshAgent _agent;
-    private Transform _targetTable;
+   // private Transform _targetTable;
     private Transform _exitPoint;
+    public float patience = 100f;
+    private Table _assignedTable;
 
-    public void Setup(Transform table, Transform exit)
+    public void Setup(Table table, Transform exit)
     {
         _agent = GetComponent<NavMeshAgent>();
-        _targetTable = table;
+        _assignedTable = table;
         _exitPoint = exit;
 
         _agent.enabled = true;
         _agent.isStopped = false;
 
         // Stage 1: Walk to table
-        _agent.SetDestination(_targetTable.position);
+        _agent.SetDestination(_assignedTable.sitPoint.position);
     }
 
     private void Update()
@@ -55,8 +57,40 @@ public class CustomerAI : MonoBehaviour
 
     void StartLeaving()
     {
+        // free up table when customer leaves
+        if (_assignedTable == null)
+        {
+            _assignedTable.isOccupied = false;
+        }
         currentState = CustomerState.Leaving;
         _agent.SetDestination(_exitPoint.position);
         Debug.Log("Customer leaves satisfied");
+    }
+
+    public void GetBumped(Vector3 bumpDirection)
+    {
+        // Recudes patience
+        patience -= 5f;
+
+        // Physical reaction, customer fumbles to direction where bumped
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+
+            // IsKinematic needs to be false a while to force take effect
+            rb.isKinematic = false;
+            rb.AddForce(bumpDirection * 5f, ForceMode.Impulse);
+
+            // Grant control to navmesh after a little while
+            Invoke("RecoverFromBump", 0.5f);
+        }
+    }
+
+    void RecoverFromBump()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        // Continues forward to table
+        _agent.SetDestination(_assignedTable.sitPoint.position);
     }
 }
