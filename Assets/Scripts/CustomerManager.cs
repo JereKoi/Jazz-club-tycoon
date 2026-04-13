@@ -15,28 +15,42 @@ public class CustomerManager : MonoBehaviour
     private void Start()
     {
         _isClubOpen = true;
+        Debug.Log("Club status: " + _isClubOpen);
         //Create a new customer TODO: maybe some randomness based on reputation of club?
         Invoke("SpawnCustomer", 1f);
 
-        Invoke("CloseClub", dayDuration);
+       // Invoke("CloseClub", dayDuration);
     }
 
     //Need to do spawning also take notice on reputation and maybe how earlier day went, word to mouth fame
 
+    private void Update()
+    {
+        if (dayDuration <= 0f)
+        {
+            CloseClub();
+        }
+    }
+
     void SpawnCustomer()
     {
-        if (_isClubOpen) return;
+        Debug.Log("Club status:" + _isClubOpen);
+        Debug.Log("Customer spawned");
+        if (_isClubOpen)
         {
+            Debug.Log("Club status123:" + _isClubOpen);
             // search for free tables
             System.Collections.Generic.List<Table> freeTables = new System.Collections.Generic.List<Table>();
             foreach (Table t in tables)
             {
                 if (!t.isOccupied) freeTables.Add(t);
             }
+            Debug.Log("Free tables: " + freeTables.Count);
 
             // If free tables are found
             if (freeTables.Count > 0)
             {
+                Debug.Log("Free tables: " + freeTables.Count);
                 Table selectedTable = freeTables[Random.Range(0, freeTables.Count)];
                 selectedTable.isOccupied = true; // Occupy table right away
 
@@ -54,13 +68,13 @@ public class CustomerManager : MonoBehaviour
             Invoke("SpawnCustomer", randomWait);
             Debug.Log("New customer has arrived!");
         }
+    }
 
-        void CloseClub()
-        {
-            _isClubOpen = false;
-            Debug.Log("Club is now closed. No new customers.");
+        public void CloseClub()
+    {
+        _isClubOpen = false;
+        Debug.Log("Club is now closed. No new customers.");
 
-            // Call day 1, day 2 etc screen and dim and dim back or dim to show some stats, clean up and when cleaned up and prepared for next day, go to exit and then day 1, 2 etc screen
-        }
+        // Call day 1, day 2 etc screen and dim and dim back or dim to show some stats, clean up and when cleaned up and prepared for next day, go to exit and then day 1, 2 etc screen
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9060392527233892113}
   - component: {fileID: 5932733317708619391}
   - component: {fileID: 7481860133855414906}
+  - component: {fileID: -5210980046481454364}
   m_Layer: 0
   m_Name: Table
   m_TagString: Table
@@ -129,3 +130,17 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &-5210980046481454364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6728958896724186847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5f9a227b9ba73b4e9e183bc25317266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Table
+  isOccupied: 0
+  sitPoint: {fileID: 0}

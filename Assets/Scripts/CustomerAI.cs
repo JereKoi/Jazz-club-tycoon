@@ -60,6 +60,7 @@ public class CustomerAI : MonoBehaviour
         // free up table when customer leaves
         if (_assignedTable == null)
         {
+            Debug.Log("Table is free as customer starts leaving");
             _assignedTable.isOccupied = false;
         }
         currentState = CustomerState.Leaving;
