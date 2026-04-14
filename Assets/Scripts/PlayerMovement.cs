@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private NavMeshAgent _agent;
+    public NavMeshAgent _agent;
     private Camera _mainCamera;
 
 

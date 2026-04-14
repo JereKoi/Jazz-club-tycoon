@@ -39,6 +39,7 @@ public class InteractionSystem : MonoBehaviour
     void DropOff()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 2.0f);
+        Debug.Log("Drink hits the table");
 
         foreach (var hitCollider in hitColliders)
         {
@@ -55,6 +56,7 @@ public class InteractionSystem : MonoBehaviour
                 if (moneyText != null)
                 {
                     moneyText.text = "Money: " + _money;
+                    Debug.Log("Money text was null");
                 }
 
                 Debug.Log("Got tip: " + tip);
@@ -62,6 +64,26 @@ public class InteractionSystem : MonoBehaviour
 
                 return;
             }
+        }
+    }
+
+    // TODO: even though I walk into customer, nothing happens
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Makes sure that CustomerAI is used
+        CustomerAI customer = collision.gameObject.GetComponent<CustomerAI>();
+
+        if (customer != null)
+        {
+            // Calculating position, where layer is heading on moment of collision
+            // collision.contacts[0].normal gives collision direction
+            Vector3 bumpDir = -collision.contacts[0].normal;
+            bumpDir.y = 0; // keeps bump direction on horizontal way. ( So that customer does not fly upwards)
+
+            // call customer getBumped method.
+            customer.GetBumped(bumpDir.normalized);
+
+            Debug.Log("You pumbed into a customer!");
         }
     }
 

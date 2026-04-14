@@ -52,13 +52,15 @@ public class CustomerAI : MonoBehaviour
 
             // Customer drinks for 3 seconds and then leaves
             Invoke("StartLeaving", 3f);
+            Debug.Log("Table is free as customer starts leaving");
+            _assignedTable.isOccupied = false;
         }
     }
 
     void StartLeaving()
     {
         // free up table when customer leaves
-        if (_assignedTable == null)
+        if (_assignedTable != null)
         {
             Debug.Log("Table is free as customer starts leaving");
             _assignedTable.isOccupied = false;
