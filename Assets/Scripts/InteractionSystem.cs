@@ -5,8 +5,8 @@ public class InteractionSystem : MonoBehaviour
 {
     public Transform hand;
     public GameObject itemPrefab;
-    public TextMeshProUGUI moneyText;
 
+    PlayerManager playerManager;
     private GameObject _carriedItem;
     private bool _onCounter = false;
     private bool _onTable = false;
@@ -53,9 +53,9 @@ public class InteractionSystem : MonoBehaviour
                 _money += tip;
                 Debug.Log("Drink delivered! Money total: " + _money);
 
-                if (moneyText != null)
+                if (PlayerManager.Instance.moneyText != null)
                 {
-                    moneyText.text = "Money: " + _money;
+                    PlayerManager.Instance.moneyText.text = "Money: " + _money;
                     Debug.Log("Money text was null");
                 }
 
@@ -72,6 +72,7 @@ public class InteractionSystem : MonoBehaviour
     {
         // Makes sure that CustomerAI is used
         CustomerAI customer = collision.gameObject.GetComponent<CustomerAI>();
+        Debug.Log("Hit something : " + collision.gameObject.name);
 
         if (customer != null)
         {

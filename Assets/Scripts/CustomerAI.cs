@@ -87,6 +87,16 @@ public class CustomerAI : MonoBehaviour
             // Grant control to navmesh after a little while
             Invoke("RecoverFromBump", 0.5f);
         }
+
+        if (patience < 50)
+        {
+            Debug.Log("Customer starts to lose patience!");
+        }
+        else if(patience < 100f)
+                    {
+            Debug.Log("Customer has lost all patience and leaves immediatly. No tips, good bye!");
+            Club.Instance.DecreaseReputation();
+        }
     }
 
     void RecoverFromBump()

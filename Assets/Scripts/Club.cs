@@ -12,18 +12,45 @@ public class ClubData
     public string name;
 
 
+
     [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 }
 
 public class Club : MonoBehaviour
 {
+    public static Club Instance;
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // If want to save club between levels:
+            // DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        _data = DatabaseManager.Instance.LoadClub(GameManager.Instance.currentClubId);
+        if (Instance == null)
+        {
+            Instance = this;
+            // If want to save club between levels:
+            // DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    
+    _data = DatabaseManager.Instance.LoadClub(GameManager.Instance.currentClubId);
         Debug.Log("Club was loaded succesfully: " + GameManager.Instance.currentClubId);
         _data.name = "Jazz club";
         if (_data == null)
@@ -46,16 +73,24 @@ public class Club : MonoBehaviour
 
     public void IncreaseReputation()
     {
-
+        if (_data == null)
+        {
+            Debug.LogError("Club data was null. Cannot change reputation.");
+        }
         _data.reputation = Mathf.Clamp(_data.reputation + 0.5f, 0f, 1f);
-        Debug.Log("Increased reputation." + _data.reputation);
+        Debug.Log("Increased reputation. Reputaiton now: " + _data.reputation);
         ApplyChanges();
     }
 
     public void DecreaseReputation()
     {
+        if (_data == null)
+        {
+            Debug.LogError("Club data was null. Cannot change reputation.");
+        }
 
-        Debug.Log("Decreased reputation.");
+        _data.reputation = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
+        Debug.Log("Decreased reputation. Reputation now: " + _data.reputation);
     }
 
     public void IncreaseExperience()
