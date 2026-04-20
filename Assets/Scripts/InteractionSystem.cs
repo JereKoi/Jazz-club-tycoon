@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractionSystem : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class InteractionSystem : MonoBehaviour
     public GameObject itemPrefab;
 
     PlayerManager playerManager;
+    Club club;
     private GameObject _carriedItem;
     private bool _onCounter = false;
     private bool _onTable = false;
@@ -64,6 +66,14 @@ public class InteractionSystem : MonoBehaviour
 
                 return;
             }
+        }
+    }
+
+    private void CleanUp()
+    {
+        if (Club.Instance.dirtyness < 10f && Pointer.current != null && Pointer.current.press.isPressed)
+        {
+            Debug.Log("Player starts cleaning!");
         }
     }
 

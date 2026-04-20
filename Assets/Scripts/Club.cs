@@ -2,6 +2,7 @@ using UnityEngine;
 using SQLite;
 using NUnit.Framework.Internal.Commands;
 using TMPro;
+using System;
 
 public class ClubData
 {
@@ -10,7 +11,7 @@ public class ClubData
     public float experience;
     public float reputation;
     public string name;
-
+ 
 
 
     [PrimaryKey, AutoIncrement]
@@ -22,6 +23,8 @@ public class Club : MonoBehaviour
     public static Club Instance;
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
+    public float dirtyness = 0f;
+    public bool hasBeenCleaned = false;
 
     private void Awake()
     {
@@ -79,6 +82,12 @@ public class Club : MonoBehaviour
         }
         _data.reputation = Mathf.Clamp(_data.reputation + 0.5f, 0f, 1f);
         Debug.Log("Increased reputation. Reputaiton now: " + _data.reputation);
+        if (hasBeenCleaned == true)
+        {
+            _data.reputation = Mathf.Clamp(_data.reputation + 0.1f, 0f, 1f);
+            Debug.Log("Increased reputation. Reputaiton now: " + _data.reputation);
+            hasBeenCleaned = false;
+        }
         ApplyChanges();
     }
 
@@ -97,6 +106,19 @@ public class Club : MonoBehaviour
     {
         _data.experience = Mathf.Clamp(_data.experience + +0.5f, 0f, 1000f);
         Debug.Log("Increased experience." + _data.experience);
+    }
+
+    public void IncreaseDirtyness()
+    {
+        dirtyness = Mathf.Clamp(_data.reputation + 0.2f, 0f, 1f);
+        Debug.Log("Dirtyness of club increased!");
+    }
+
+    public void DecreaseDirtyness()
+    {
+        dirtyness = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
+        Debug.Log("Nice job at cleaning! Dirtyness of club Decreased! Slight increase in reputation.");
+        hasBeenCleaned = true;
     }
 
     public void UpdateUI()
