@@ -27,6 +27,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 _agent.SetDestination(hit.point);
             }
+            if (Physics.Raycast(ray, out hit))
+            {
+
+            }
         }
     }
 }

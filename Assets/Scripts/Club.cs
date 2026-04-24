@@ -23,6 +23,7 @@ public class Club : MonoBehaviour
     public static Club Instance;
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
+    [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
     public float dirtyness = 0f;
     public bool hasBeenCleaned = false;
 
@@ -106,12 +107,21 @@ public class Club : MonoBehaviour
     {
         _data.experience = Mathf.Clamp(_data.experience + +0.5f, 0f, 1000f);
         Debug.Log("Increased experience." + _data.experience);
+        
     }
 
     public void IncreaseDirtyness()
     {
         dirtyness = Mathf.Clamp(_data.reputation + 0.2f, 0f, 1f);
         Debug.Log("Dirtyness of club increased!");
+
+        // TODO: check how to increase floats on different script
+
+        if (Club.Instance.dirtyness =< 50f)
+        {
+            hasBeenCleaned = false;
+        }
+        Club.Instance.dirtyness + 5f;
     }
 
     public void DecreaseDirtyness()
@@ -119,6 +129,7 @@ public class Club : MonoBehaviour
         dirtyness = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
         Debug.Log("Nice job at cleaning! Dirtyness of club Decreased! Slight increase in reputation.");
         hasBeenCleaned = true;
+        Club.Instance.dirtyness + 5f;
     }
 
     public void UpdateUI()

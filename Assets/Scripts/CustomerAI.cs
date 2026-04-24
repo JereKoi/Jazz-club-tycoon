@@ -88,6 +88,8 @@ public class CustomerAI : MonoBehaviour
             Invoke("RecoverFromBump", 0.5f);
         }
 
+        
+        // TODO: fix debug values, for debugging they are currently high
         if (patience < 50)
         {
             Debug.Log("Customer starts to lose patience!");
