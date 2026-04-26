@@ -9,6 +9,7 @@ public class InteractionSystem : MonoBehaviour
 
     PlayerManager playerManager;
     Club club;
+    ClubData clubData;
     private GameObject _carriedItem;
     private bool _onCounter = false;
     private bool _onTable = false;
@@ -71,7 +72,7 @@ public class InteractionSystem : MonoBehaviour
 
     private void CleanUp()
     {
-        if (Club.Instance.dirtyness < 10f && Pointer.current != null && Pointer.current.press.isPressed)
+        if (clubData.dirtyness < 10f && Pointer.current != null && Pointer.current.press.isPressed)
         {
             Debug.Log("Player starts cleaning!");
         }

@@ -11,7 +11,8 @@ public class ClubData
     public float experience;
     public float reputation;
     public string name;
- 
+    public float dirtyness = 0f;
+
 
 
     [PrimaryKey, AutoIncrement]
@@ -24,7 +25,7 @@ public class Club : MonoBehaviour
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
-    public float dirtyness = 0f;
+    
     public bool hasBeenCleaned = false;
 
     private void Awake()
@@ -112,24 +113,22 @@ public class Club : MonoBehaviour
 
     public void IncreaseDirtyness()
     {
-        dirtyness = Mathf.Clamp(_data.reputation + 0.2f, 0f, 1f);
+        _data.dirtyness = Mathf.Clamp(_data.reputation + 0.2f, 0f, 1f);
         Debug.Log("Dirtyness of club increased!");
 
         // TODO: check how to increase floats on different script
 
-        if (Club.Instance.dirtyness =< 50f)
+        if (_data.dirtyness <= 50f)
         {
             hasBeenCleaned = false;
         }
-        Club.Instance.dirtyness + 5f;
     }
 
     public void DecreaseDirtyness()
     {
-        dirtyness = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
+        _data.dirtyness = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
         Debug.Log("Nice job at cleaning! Dirtyness of club Decreased! Slight increase in reputation.");
         hasBeenCleaned = true;
-        Club.Instance.dirtyness + 5f;
     }
 
     public void UpdateUI()

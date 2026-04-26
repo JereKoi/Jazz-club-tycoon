@@ -6,13 +6,18 @@ public class PlayerMovement : MonoBehaviour
 {
     public NavMeshAgent _agent;
     private Camera _mainCamera;
+    float startTime = 0f;
+    float holdTime = 5.0f;
+    public InputAction InputActions;
 
+    public KeyCode Key;
 
     private void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
         _mainCamera = Camera.main;
     }
+
 
     private void Update()
     {
@@ -32,5 +37,11 @@ public class PlayerMovement : MonoBehaviour
 
             }
         }
+
+        //if (Touchscreen.current.)
+        //{
+        //    startTime = Time.time;
+        //    Club.Instance.DecreaseDirtyness();
+        //}
     }
 }
