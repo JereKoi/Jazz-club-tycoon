@@ -11,6 +11,7 @@ public class CustomerAI : MonoBehaviour
     private Transform _exitPoint;
     public float patience = 100f;
     private Table _assignedTable;
+    Club club = new Club();
 
     public void Setup(Table table, Transform exit)
     {
@@ -97,7 +98,7 @@ public class CustomerAI : MonoBehaviour
         else if(patience < 100f)
                     {
             Debug.Log("Customer has lost all patience and leaves immediatly. No tips, good bye!");
-            Club.Instance.DecreaseReputation();
+            Club.Instance.DecreaseReputation();            
         }
     }
 

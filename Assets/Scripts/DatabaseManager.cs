@@ -14,6 +14,10 @@ public sealed class DatabaseManager : IDisposable
     public ClubData clubData;
     public InventoryItemData inventoryItemData;
 
+    public static event Action OnLoadDatabase;
+    public static event Action OnSaveDatabase;
+    public static event Action OnCloseDatabase;
+
     private void InitializeDatabase()
     {
         _connection = new SQLiteConnection(databasePath);

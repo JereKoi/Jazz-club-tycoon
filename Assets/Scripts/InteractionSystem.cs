@@ -56,13 +56,17 @@ public class InteractionSystem : MonoBehaviour
                 _money += tip;
                 Debug.Log("Drink delivered! Money total: " + _money);
 
-                if (PlayerManager.Instance.moneyText != null)
+                if (playerManager.moneyText != null)
                 {
                     PlayerManager.Instance.moneyText.text = "Money: " + _money;
                     Debug.Log("Money text was null");
                 }
+                else
+                {
+                    Debug.Log("money text is missing");
+                }
 
-                Debug.Log("Got tip: " + tip);
+                    Debug.Log("Got tip: " + tip);
                 customer.ReceiveDrink();
 
                 return;

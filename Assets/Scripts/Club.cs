@@ -21,6 +21,8 @@ public class ClubData
 
 public class Club : MonoBehaviour
 {
+    public static event Action OnActivate;
+
     public static Club Instance;
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
@@ -33,6 +35,7 @@ public class Club : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log("Club instance:", Instance = this);
             // If want to save club between levels:
             // DontDestroyOnLoad(gameObject); 
         }
@@ -47,6 +50,7 @@ public class Club : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            Debug.Log("Club instance:", Instance = this);
             // If want to save club between levels:
             // DontDestroyOnLoad(gameObject); 
         }
