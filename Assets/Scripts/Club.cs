@@ -132,6 +132,14 @@ public class Club : MonoBehaviour
     {
         _data.dirtyness = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
         Debug.Log("Nice job at cleaning! Dirtyness of club Decreased! Slight increase in reputation.");
+        if (_data.dirtyness <= 10)
+        hasBeenCleaned = true;
+    }
+
+    public void ResetDirtyness()
+    {
+        _data.dirtyness = 0f;
+        Debug.Log("Club has been fully cleaned.");
         hasBeenCleaned = true;
     }
 

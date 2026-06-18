@@ -7,7 +7,7 @@ public class InteractionSystem : MonoBehaviour
     public Transform hand;
     public GameObject itemPrefab;
 
-    PlayerManager playerManager;
+
     Club club;
     ClubData clubData;
     private GameObject _carriedItem;
@@ -56,7 +56,7 @@ public class InteractionSystem : MonoBehaviour
                 _money += tip;
                 Debug.Log("Drink delivered! Money total: " + _money);
 
-                if (playerManager.moneyText != null)
+                if (PlayerManager.Instance.moneyText != null)
                 {
                     PlayerManager.Instance.moneyText.text = "Money: " + _money;
                     Debug.Log("Money text was null");

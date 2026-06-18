@@ -11,8 +11,7 @@ public class CustomerAI : MonoBehaviour
     private Transform _exitPoint;
     public float patience = 100f;
     private Table _assignedTable;
-    Club club = new Club();
-
+    private Club club;
     public void Setup(Table table, Transform exit)
     {
         _agent = GetComponent<NavMeshAgent>();
