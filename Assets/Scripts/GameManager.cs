@@ -8,7 +8,8 @@ public class GameManager : MonoBehaviour
     public int currentMusicianId = 1;
     public int currentInventoryItemId = 1;
 
-    private void Awake()
+
+    private void Start()
     {
         if (Instance == null)
         {
@@ -19,11 +20,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    private void Start()
-    {
-        Instance = this;
     }
 
     private void OnApplicationQuit()

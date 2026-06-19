@@ -23,7 +23,7 @@ public class Club : MonoBehaviour
 {
     public static event Action OnActivate;
 
-    public static Club Instance;
+    public static Club Instance { get; private set; }
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
@@ -35,41 +35,39 @@ public class Club : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            Debug.Log("Club instance:", Instance = this);
-            // If want to save club between levels:
             // DontDestroyOnLoad(gameObject); 
         }
-        else
+        else if (Instance != this)
         {
             Destroy(gameObject);
         }
     }
 
+    private void Update()
+    {
+        if (Club.Instance == null) return;
+    }
+
     private void Start()
     {
-        if (Instance == null)
+
+        var loadedData = DatabaseManager.Instance.LoadClub(GameManager.Instance.currentClubId);
+
+        if (loadedData == null)
         {
-            Instance = this;
-            Debug.Log("Club instance:", Instance = this);
-            // If want to save club between levels:
-            // DontDestroyOnLoad(gameObject); 
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    
-    _data = DatabaseManager.Instance.LoadClub(GameManager.Instance.currentClubId);
-        Debug.Log("Club was loaded succesfully: " + GameManager.Instance.currentClubId);
-        _data.name = "Jazz club";
-        if (_data == null)
-        {
-            _data = new ClubData();
+
             _data = DatabaseManager.Instance.CreateClub(name);
             GameManager.Instance.currentClubId = _data.Id;
             _data.name = "Jazz club";
-            Debug.Log("Club was not found on database, created and loaded a new one: " + _data.name + _data.Id);
+            Debug.Log("Club was not found, loaded new one: " + _data.name);
         }
+        else
+        {
+            _data = loadedData;
+            _data.name = "Jazz club";
+            Debug.Log("Club loaded succesfully with id: " + GameManager.Instance.currentClubId);
+        }
+
         UpdateUI();
     }
 

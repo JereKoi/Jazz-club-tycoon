@@ -11,7 +11,7 @@ public class CustomerAI : MonoBehaviour
     private Transform _exitPoint;
     public float patience = 100f;
     private Table _assignedTable;
-    private Club club;
+
     public void Setup(Table table, Transform exit)
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -88,16 +88,25 @@ public class CustomerAI : MonoBehaviour
             Invoke("RecoverFromBump", 0.5f);
         }
 
-        
-        // TODO: fix debug values, for debugging they are currently high
-        if (patience < 50)
+
+        if (patience <= 0f)
         {
-            Debug.Log("Customer starts to lose patience!");
+            Debug.Log("Customer has lost all patience and leaves immediately. No tips, good bye!");
+
+            if (Club.Instance != null)
+            {
+                Club.Instance.DecreaseReputation();
+            }
+            else
+            {
+                Debug.LogError("Club.Instance puuttuu skenestä! Muistathan vetää Club-skriptin johonkin aktiiviseen kohteeseen skenellä.");
+            }
+
+            StartLeaving();
         }
-        else if(patience < 100f)
-                    {
-            Debug.Log("Customer has lost all patience and leaves immediatly. No tips, good bye!");
-            Club.Instance.DecreaseReputation();            
+        else if (patience < 50f)
+        {
+            Debug.Log("Customer starts to lose patience! Current patience: " + patience);
         }
     }
 

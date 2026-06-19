@@ -16,10 +16,21 @@ public class PlayerMovement : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _mainCamera = Camera.main;
+
+        if (_agent != null)
+        {
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 3.0f, NavMesh.AllAreas))
+            {
+                _agent.Warp(hit.position);
+            }
+            else
+            {
+                Debug.LogError("Player couldnt be set to NavMesh! Is entrance point on NavMesh?");
+            }
+        }
     }
 
-
-    private void Update()
+private void Update()
     {
         if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
         {
@@ -30,18 +41,27 @@ public class PlayerMovement : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                _agent.SetDestination(hit.point);
-            }
-            if (Physics.Raycast(ray, out hit))
-            {
+                if (_agent != null)
+                {
+                    if (!_agent.enabled)
+                    {
+                        _agent.enabled = true;
+                    }
 
+                    if (!_agent.isOnNavMesh)
+                    {
+                        if (NavMesh.SamplePosition(transform.position, out NavMeshHit navHit, 2.0f, NavMesh.AllAreas))
+                        {
+                            _agent.Warp(navHit.position);
+                        }
+                    }
+
+                    if (NavMesh.SamplePosition(hit.point, out NavMeshHit edgeHit, 3.0f, NavMesh.AllAreas))
+                    {
+                        _agent.SetDestination(edgeHit.position);
+                    }
+                }
             }
         }
-
-        //if (Touchscreen.current.)
-        //{
-        //    startTime = Time.time;
-        //    Club.Instance.DecreaseDirtyness();
-        //}
     }
 }

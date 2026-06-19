@@ -7,15 +7,14 @@ public class Clean : MonoBehaviour
     public float dirtyness = 0f;
     public bool hasBeenCleaned = false;
     public static Clean Instance;
-    private float timeSinceCleaned = 0;
+    [SerializeField]private float timeSinceCleaned = 0;
+     
 
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
             Instance = this;
-            // If want to save club between levels:
-            // DontDestroyOnLoad(gameObject); 
         }
         else
         {
@@ -25,24 +24,42 @@ public class Clean : MonoBehaviour
 
     private void Update()
     {
-        // For time since cleanded, it should be based on how many customers have visited.
+        if (Club.Instance == null)
+        {
+            Debug.Log("Club instance was null, returning");
+            return;
+        }
+
+
         timeSinceCleaned += Time.deltaTime;
-        if (timeSinceCleaned > 60)
+        if (timeSinceCleaned > 2f)
         {
             Club.Instance.IncreaseDirtyness();
-            timeSinceCleaned = 0;
+            Debug.Log("Dirtyness increased!");
+            timeSinceCleaned = 0f;
         }
 
         if (!hasBeenCleaned && dirtyness >= 1f)
         {
-            _clubNeedsCleaningText.enabled = true;
-            Club.Instance.IncreaseDirtyness();
+
+            if (!_clubNeedsCleaningText.enabled)
+            {
+                _clubNeedsCleaningText.enabled = true;
+                Club.Instance.IncreaseDirtyness();
+            }
         }
-        else if (hasBeenCleaned && dirtyness <= 0f || hasBeenCleaned)
-        {
-            _clubNeedsCleaningText.enabled = false;
-            Club.Instance.hasBeenCleaned = true;
-            Club.Instance.ResetDirtyness();
-        }
+    }
+
+    public void CleanTheClub()
+    {
+        if (Club.Instance == null) return;
+
+        dirtyness = 0f;
+        hasBeenCleaned = true;
+        _clubNeedsCleaningText.enabled = false;
+
+        Club.Instance.ResetDirtyness();
+
+        Debug.Log("Cleaned succesfully!");
     }
 }

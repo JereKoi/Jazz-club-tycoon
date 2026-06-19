@@ -26,9 +26,11 @@ public class CustomerManager : MonoBehaviour
 
     private void Update()
     {
+        dayDuration = dayDuration - Time.deltaTime;
         if (dayDuration <= 0f)
         {
             CloseClub();
+            dayDuration = 300f;
         }
     }
 
