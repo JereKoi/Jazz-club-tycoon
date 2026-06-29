@@ -13,6 +13,7 @@ public sealed class DatabaseManager : IDisposable
     public MusicianData musicianData;
     public ClubData clubData;
     public InventoryItemData inventoryItemData;
+    public DirtynessData dirtynessData;
 
     public static event Action OnLoadDatabase;
     public static event Action OnSaveDatabase;
@@ -69,6 +70,11 @@ public sealed class DatabaseManager : IDisposable
         return newMusician;
     }
 
+    // TODO: Determine how to do this. Maybe add column to club table and include this there
+    public DirtynessData IncreaseDirtyness(DirtynessData dirtyness)
+    {
+
+    }
 
     public void CloseConnection()
     {

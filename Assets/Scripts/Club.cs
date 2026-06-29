@@ -50,8 +50,30 @@ public class Club : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("Club didnt find game manager instance! Make sure its on scene and its wake has been ran.");
+        }
 
-        var loadedData = DatabaseManager.Instance.LoadClub(GameManager.Instance.currentClubId);
+        int clubId = GameManager.Instance.currentClubId;
+        Debug.Log("Trying to load club with id" + clubId);
+
+        if (DatabaseManager.Instance == null)
+        {
+            Debug.LogError("DatabaseManager.Instacne is null!");
+        }
+
+        ClubData loadedData = null;
+        try
+        {
+            loadedData = DatabaseManager.Instance.LoadClub(clubId);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Database retrieval failed! Is connection lost? Error: " + e);
+        }
+
+       
 
         if (loadedData == null)
         {

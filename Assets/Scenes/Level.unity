@@ -385,6 +385,37 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!1 &190325162
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 190325163}
+  m_Layer: 0
+  m_Name: DatabaseManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &190325163
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190325162}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &249467511
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +563,7 @@ GameObject:
   m_Component:
   - component: {fileID: 415439694}
   - component: {fileID: 415439695}
+  - component: {fileID: 415439696}
   m_Layer: 0
   m_Name: club
   m_TagString: Untagged
@@ -568,6 +600,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Clean
   _clubNeedsCleaningText: {fileID: 161567780}
   dirtyness: 0
+  hasBeenCleaned: 0
+  timeSinceCleaned: 0
+--- !u!114 &415439696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415439692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c990ab32a9ffa5c4db56ecfb429277d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Club
+  _nameText: {fileID: 777625128}
+  _clubNeedsCleaningText: {fileID: 161567780}
   hasBeenCleaned: 0
 --- !u!1 &430028792
 GameObject:
@@ -679,6 +727,8 @@ GameObject:
   m_Component:
   - component: {fileID: 737183428}
   - component: {fileID: 737183427}
+  - component: {fileID: 737183429}
+  - component: {fileID: 737183430}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -721,6 +771,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &737183429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737183426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdb86108371ff874b8e965af2a9ff703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Clean
+  _clubNeedsCleaningText: {fileID: 0}
+  dirtyness: 0
+  hasBeenCleaned: 0
+  timeSinceCleaned: 0
+--- !u!114 &737183430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 737183426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bddfd7c9c6877c47995d0d57119f240, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  currentClubId: 1
+  currentMusicianId: 1
+  currentInventoryItemId: 1
 --- !u!1 &777625125
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,7 +1288,7 @@ Transform:
   m_GameObject: {fileID: 1432107848}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.08, y: 0, z: -3.63}
+  m_LocalPosition: {x: -4.08, y: -0.05, z: -3.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1421,6 +1502,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1676860355}
   - component: {fileID: 1676860354}
+  - component: {fileID: 1676860356}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -1440,7 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9090cefedc9504e94151cf0246d9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerManager
-  playerPrefab: {fileID: 6298017768789189109, guid: 171ea20f997174b43999a7e256dd5695, type: 3}
+  playerPrefab: {fileID: 8503684802030249033, guid: c3a583af3f0ee0840be08f5d313f30a2, type: 3}
   entrance: {fileID: 1432107849}
   moneyText: {fileID: 1849230911}
 --- !u!4 &1676860355
@@ -1458,6 +1540,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1676860356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676860353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11dff4c4663cbba4b9714729dad97ed9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionSystem
+  hand: {fileID: 0}
+  itemPrefab: {fileID: 0}
 --- !u!1 &1849230909
 GameObject:
   m_ObjectHideFlags: 0
@@ -2045,3 +2141,4 @@ SceneRoots:
   - {fileID: 1666663701}
   - {fileID: 1676860355}
   - {fileID: 415439694}
+  - {fileID: 190325163}

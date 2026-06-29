@@ -32,7 +32,7 @@ public class Clean : MonoBehaviour
 
 
         timeSinceCleaned += Time.deltaTime;
-        if (timeSinceCleaned > 2f)
+        if (timeSinceCleaned > 20f)
         {
             Club.Instance.IncreaseDirtyness();
             Debug.Log("Dirtyness increased!");
