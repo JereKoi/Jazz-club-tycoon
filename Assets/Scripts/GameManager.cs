@@ -8,6 +8,19 @@ public class GameManager : MonoBehaviour
     public int currentMusicianId = 1;
     public int currentInventoryItemId = 1;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Debug.Log("GameManager was destroyed!");
+            //Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -18,7 +31,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 

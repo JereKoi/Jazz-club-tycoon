@@ -1,15 +1,16 @@
 using TMPro;
+using UnityEditor.Toolbars;
 using UnityEngine;
 
 public class Clean : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
-    public float dirtyness = 0f;
+    [SerializeField] private GameObject _cleanButton;
     public bool hasBeenCleaned = false;
     public static Clean Instance;
     [SerializeField]private float timeSinceCleaned = 0;
      
-
+    // TODO: determine if this function/method is needed anymore
     private void Start()
     {
         if (Instance == null)
@@ -18,7 +19,7 @@ public class Clean : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
@@ -38,25 +39,15 @@ public class Clean : MonoBehaviour
             Debug.Log("Dirtyness increased!");
             timeSinceCleaned = 0f;
         }
-
-        if (!hasBeenCleaned && dirtyness >= 1f)
-        {
-
-            if (!_clubNeedsCleaningText.enabled)
-            {
-                _clubNeedsCleaningText.enabled = true;
-                Club.Instance.IncreaseDirtyness();
-            }
-        }
     }
 
     public void CleanTheClub()
     {
         if (Club.Instance == null) return;
 
-        dirtyness = 0f;
         hasBeenCleaned = true;
         _clubNeedsCleaningText.enabled = false;
+        _cleanButton.SetActive(false);
 
         Club.Instance.ResetDirtyness();
 
