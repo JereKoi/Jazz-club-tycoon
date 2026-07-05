@@ -27,8 +27,11 @@ public class Club : MonoBehaviour
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
+    [SerializeField] private TextMeshProUGUI _dirtynessLevelText;
     [SerializeField] private GameObject _cleanButton;
-    
+
+    [SerializeField] private float timeSinceCleaned = 0;
+
     public bool hasBeenCleaned = false;
 
     private void Awake()
@@ -41,13 +44,32 @@ public class Club : MonoBehaviour
         }
         else if (Instance != this)
         {
-           // Destroy(gameObject);
+            // Destroy(gameObject);
         }
     }
 
     private void Update()
     {
-        if (Club.Instance == null) return;
+        if (Club.Instance == null)
+        {
+            return;
+        }
+
+        if (Club.Instance == null)
+        {
+            Debug.Log("Club instance was null, returning");
+            return;
+        }
+
+
+        timeSinceCleaned += Time.deltaTime;
+        if (timeSinceCleaned > 20f)
+        {
+            Club.Instance.IncreaseDirtyness();
+            Debug.Log("Dirtyness increased!");
+            timeSinceCleaned = 0f;
+            UpdateUI();
+        }
     }
 
     private void Start()
@@ -152,6 +174,7 @@ public class Club : MonoBehaviour
             _cleanButton.SetActive(true);
         }
         ApplyChanges();
+        UpdateUI();
     }
 
     public void DecreaseDirtyness()
@@ -163,6 +186,7 @@ public class Club : MonoBehaviour
         if (_data.dirtyness <= 10)
         hasBeenCleaned = true;
         ApplyChanges();
+        UpdateUI();
     }
 
     public void ResetDirtyness()
@@ -174,18 +198,25 @@ public class Club : MonoBehaviour
         hasBeenCleaned = true;
         ApplyChanges();
         _cleanButton.SetActive(false);
+        UpdateUI();
     }
 
     public void UpdateUI()
     {
-        if (_data == null) return;
+        if (_data == null)
+        {
+            Debug.Log("Data was null, returning from UpdateUI");
+            return;
+        }
+
         _nameText.text = "Name: " + _data.name;
 
         int dirtyPercentage = Mathf.RoundToInt(_data.dirtyness * 100f);
-
-        if (_clubNeedsCleaningText != null)
+        _dirtynessLevelText.text = dirtyPercentage + "Dirtyness: " + " %";
+        if (_clubNeedsCleaningText == null || _dirtynessLevelText == null)
         {
-            _clubNeedsCleaningText.text = "Dirtyness: " + dirtyPercentage + "%";
+            Debug.LogError("Dirtyness text components is missing from Scene! Null error!");
+           
         }
     }
 }
