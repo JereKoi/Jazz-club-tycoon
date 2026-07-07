@@ -139,6 +139,7 @@ public class Club : MonoBehaviour
             hasBeenCleaned = false;
         }
         ApplyChanges();
+        UpdateUI();
     }
 
     public void DecreaseReputation()
@@ -150,6 +151,8 @@ public class Club : MonoBehaviour
 
         _data.reputation = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
         Debug.Log("Decreased reputation. Reputation now: " + _data.reputation);
+        ApplyChanges();
+        UpdateUI();
     }
 
     public void IncreaseExperience()
@@ -157,6 +160,7 @@ public class Club : MonoBehaviour
         _data.experience = Mathf.Clamp(_data.experience + +0.5f, 0f, 1000f);
         Debug.Log("Increased experience." + _data.experience);
         ApplyChanges();
+        UpdateUI();
     }
 
     public void IncreaseDirtyness()

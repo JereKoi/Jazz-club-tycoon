@@ -82,7 +82,6 @@ public class InteractionSystem : MonoBehaviour
         }
     }
 
-    // TODO: even though I walk into customer, nothing happens
     private void OnCollisionEnter(Collision collision)
     {
         // Makes sure that CustomerAI is used
