@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InteractionSystem : MonoBehaviour
 {
@@ -14,8 +15,13 @@ public class InteractionSystem : MonoBehaviour
     private bool _onCounter = false;
     private bool _onTable = false;
 
+
     private int _money = 0;
 
+    private void Start()
+    {
+
+    }
 
     private void Update()
     {
@@ -71,14 +77,6 @@ public class InteractionSystem : MonoBehaviour
 
                 return;
             }
-        }
-    }
-
-    private void CleanUp()
-    {
-        if (clubData.dirtyness < 10f && Pointer.current != null && Pointer.current.press.isPressed)
-        {
-            Debug.Log("Player starts cleaning!");
         }
     }
 

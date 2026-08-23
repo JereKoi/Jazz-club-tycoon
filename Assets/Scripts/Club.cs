@@ -24,6 +24,12 @@ public class Club : MonoBehaviour
     public static event Action OnActivate;
 
     public static Club Instance { get; private set; }
+
+    public static event Action<ClubData> OnClubDataChanged;
+
+    // Event: Sends info that dirtyness has changed
+    public static event Action<float> OnDirtynessChanged;
+
     private ClubData _data = new ClubData();
     [SerializeField] private TextMeshProUGUI _nameText;
     [SerializeField] private TextMeshProUGUI _clubNeedsCleaningText;
@@ -50,25 +56,12 @@ public class Club : MonoBehaviour
 
     private void Update()
     {
-        if (Club.Instance == null)
-        {
-            return;
-        }
-
-        if (Club.Instance == null)
-        {
-            Debug.Log("Club instance was null, returning");
-            return;
-        }
-
-
         timeSinceCleaned += Time.deltaTime;
         if (timeSinceCleaned > 20f)
         {
             Club.Instance.IncreaseDirtyness();
             Debug.Log("Dirtyness increased!");
             timeSinceCleaned = 0f;
-            UpdateUI();
         }
     }
 
@@ -114,14 +107,14 @@ public class Club : MonoBehaviour
             Debug.Log("Club loaded succesfully with id: " + GameManager.Instance.currentClubId);
         }
 
-        UpdateUI();
+        ApplyChanges();
     }
 
     private void ApplyChanges()
     {
         DatabaseManager.Instance.SaveClub(_data);
         Debug.Log("Saving club changes." + _data);
-        UpdateUI();
+        OnClubDataChanged?.Invoke(_data);
     }
 
     public void IncreaseReputation()
@@ -139,7 +132,6 @@ public class Club : MonoBehaviour
             hasBeenCleaned = false;
         }
         ApplyChanges();
-        UpdateUI();
     }
 
     public void DecreaseReputation()
@@ -152,7 +144,6 @@ public class Club : MonoBehaviour
         _data.reputation = Mathf.Clamp(_data.reputation - 0.2f, 0f, 1f);
         Debug.Log("Decreased reputation. Reputation now: " + _data.reputation);
         ApplyChanges();
-        UpdateUI();
     }
 
     public void IncreaseExperience()
@@ -160,7 +151,6 @@ public class Club : MonoBehaviour
         _data.experience = Mathf.Clamp(_data.experience + +0.5f, 0f, 1000f);
         Debug.Log("Increased experience." + _data.experience);
         ApplyChanges();
-        UpdateUI();
     }
 
     public void IncreaseDirtyness()
@@ -172,13 +162,17 @@ public class Club : MonoBehaviour
 
         // TODO: check how to increase floats on different script
 
+        DatabaseManager.Instance.SaveClub(_data);
+
+        // ? ensures that game won't crash if nobody is listening to event
+        OnDirtynessChanged?.Invoke(_data.dirtyness);
+
         if (_data.dirtyness >= 50f)
         {
             hasBeenCleaned = false;
             _cleanButton.SetActive(true);
         }
         ApplyChanges();
-        UpdateUI();
     }
 
     public void DecreaseDirtyness()
@@ -190,7 +184,6 @@ public class Club : MonoBehaviour
         if (_data.dirtyness <= 10)
         hasBeenCleaned = true;
         ApplyChanges();
-        UpdateUI();
     }
 
     public void ResetDirtyness()
@@ -202,25 +195,5 @@ public class Club : MonoBehaviour
         hasBeenCleaned = true;
         ApplyChanges();
         _cleanButton.SetActive(false);
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        if (_data == null)
-        {
-            Debug.Log("Data was null, returning from UpdateUI");
-            return;
-        }
-
-        _nameText.text = "Name: " + _data.name;
-
-        int dirtyPercentage = Mathf.RoundToInt(_data.dirtyness * 100f);
-        _dirtynessLevelText.text = dirtyPercentage + "Dirtyness: " + " %";
-        if (_clubNeedsCleaningText == null || _dirtynessLevelText == null)
-        {
-            Debug.LogError("Dirtyness text components is missing from Scene! Null error!");
-           
-        }
     }
 }

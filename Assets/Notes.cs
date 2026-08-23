@@ -34,4 +34,10 @@ Dont run code on update just like that since it runs every frame. Instead of cal
 you can use timer (Time.DeltaTime) or create event based code. (Code is called only when something
 really happens.)
 
+Events vs Instance:
+Apparently Events are more professional way to do references in C#. Always have used instances
+so this is new for me. I knew Events are changing status on single class and then other 
+classes can see the status and react to that. Instance would be each needed to separately
+defined and listen. Events lessen code heaviness meaning not so many lines and 
+making it easier to upkeep.
 */
