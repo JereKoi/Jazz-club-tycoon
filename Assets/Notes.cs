@@ -40,4 +40,18 @@ so this is new for me. I knew Events are changing status on single class and the
 classes can see the status and react to that. Instance would be each needed to separately
 defined and listen. Events lessen code heaviness meaning not so many lines and 
 making it easier to upkeep.
-*/
+
+ Data Transfer Object (DTO) / ORM-model means having one data set in class that you save from to
+database
+
+StartCoroutine helps to keep update method light if you are running for example time tracking,
+if it only updates for every now and then, you dont need to check it every second.
+
+Always when combining text in Unity:
+_dirtynessLevelText.text = "Dirtyness: " + dirtyPercentage + " %";
+for example, this collects carbage and Unity has to then clean memory which can cause game to 
+have frames per second latency or stutter. TextMeshPro recommends to use SetText for long strings,
+but already using dollar sign improves readability.
+
+_dirtynessLevelText.text = $"Dirtyness: {dirtyPercentage} %";
+ */
